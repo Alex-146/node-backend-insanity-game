@@ -51,7 +51,7 @@ class VkApi {
 
   static getAuth() {
     // todo: change timestamp to random string?
-    const id = Date.now();
+    const id = Date.now().toString();
     return {
       url: `https://oauth.vk.com/authorize?client_id=${clientId}&display=page&redirect_uri=${VkApi.getRedirect(id)}&scope=friends&response_type=code&v=${VkApi.version}`,
       id

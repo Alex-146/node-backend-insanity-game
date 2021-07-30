@@ -7,6 +7,7 @@ if (process.env.NODE_ENV !== "production") {
 const app = express();
 
 app.use("/auth", require("./routes/auth"));
+app.use("/vk", require("./routes/vk"));
 
 app.get("/", (req, res) => {
   return res.json({ ok: true });

@@ -17,7 +17,7 @@ class VkApi {
 
   async getInfo() {
     const { data } = await this.makeApiRequest("users.get", { fields: "photo_100"});
-    return data;
+    return data.response[0];
   }
 
   async getFriends() {

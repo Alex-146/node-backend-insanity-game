@@ -1,0 +1,30 @@
+### LOGIN USING VALID EMAIL AND PASSWORD
+POST http://localhost:5000/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "{{$dotenv DEV_USER_EMAIL}}",
+  "password": "{{$dotenv DEV_USER_PASSWORD}}"
+}
+
+### LOGIN USING INVALID EMAIL
+POST http://localhost:5000/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "INVALID_EMAIL",
+  "password": "{{$dotenv DEV_USER_PASSWORD}}"
+}
+
+### LOGIN USING INVALID PASSWORD
+POST http://localhost:5000/auth/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "{{$dotenv DEV_USER_EMAIL}}",
+  "password": "INVALID_PASSWORD"
+}
+
+### LOGIN USING TOKEN
+GET http://localhost:5000/auth/login HTTP/1.1
+Authorization: Bearer {{$dotenv DEV_USER_TOKEN}}

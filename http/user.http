@@ -1,0 +1,14 @@
+### GET USER BY ID PARAM
+GET http://localhost:5000/user/6111ad6c963585366420fcc2 HTTP/1.1
+
+### GET SELF USING TOKEN
+GET http://localhost:5000/user/ HTTP/1.1
+Authorization: Bearer {{$dotenv DEV_USER_TOKEN}}
+
+### TEST ACTION
+GET http://localhost:5000/user?action=addFriend HTTP/1.1
+Authorization: Bearer {{$dotenv DEV_USER_TOKEN}}
+
+### TEST ACTION
+GET http://localhost:5000/user?action=badAction HTTP/1.1
+Authorization: Bearer {{$dotenv DEV_USER_TOKEN}}

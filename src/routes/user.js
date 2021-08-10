@@ -1,16 +1,7 @@
-const express = require("express");
-const User = require("../models/User");
 const { validateToken } = require("../middleware/jwt");
 
+const express = require("express");
 const router = express.Router();
-
-async function findUser(id) {
-  const user = await User.findById(id);
-  if (!user) {
-    return [400, { message: "not found" }];
-  }
-  return [200, user];
-}
 
 // todo: move to separate file
 const actions = {
@@ -23,8 +14,11 @@ router.get("/", validateToken, async (req, res) => {
   try {
     const action = req.query.action;
     if (!action) {
-      const [code, user] = await findUser(req.user.id);
-      return res.status(code).json(user);
+      const user = await req.service.db.findUserById(req.params.id);
+      if (!user) {
+        return res.status(400).json(user);
+      }
+      return res.json(user);
     }
 
     if (action in actions) {
@@ -41,8 +35,16 @@ router.get("/", validateToken, async (req, res) => {
 
 // todo: validate token with access roles
 router.get("/:id", async (req, res) => {
-  const [code, user] = await findUser(req.params.id);
-  return res.status(code).json(user);
+  try {
+    const user = await req.service.db.findUserById(req.params.id);
+    if (!user) {
+      return res.status(400).json(user);
+    }
+    return res.json(user);
+  }
+  catch(error) {
+    return res.status(500).json({ message: error.message });
+  }
 });
 
 module.exports = router;

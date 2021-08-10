@@ -43,14 +43,19 @@ router.post("/login", async (req, res) => {
 
 router.post("/register", async (req, res) => {
   try {
-    const { email, password } = req.body;
-    if (!email || !password) {
+    const { method, data } = req.body;
+    if (!method || !data) {
       return res.sendStatus(400);
     }
 
-    //todo
-    const [code, data] = await registerViaStandard(email, password);
-    return res.status(code).json(data);
+    //todo: check if user exists, if not: register and put data to db
+    const user = await req.service.db.registerUser(method, data);
+    if (!user) {
+      return res.sendStatus(400);
+    }
+
+    const token = sign({ id: user.id });
+    return res.json({ token });
   }
   catch(error) {
     return res.status(500).json({ message: error.message });

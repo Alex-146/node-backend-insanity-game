@@ -7,10 +7,12 @@ const schema = new Schema({
         type: {
           email: {
             type: String,
-            unique: true
+            unique: true, // ! https://mongoosejs.com/docs/validation.html#the-unique-option-is-not-a-validator
+            required: true, // ? doesnt work
           },
           password: {
-            type: String
+            type: String,
+            required: true,
           }
         },
         default: null
@@ -31,7 +33,8 @@ const schema = new Schema({
             unique: true
           },
           default: null
-        }
+        },
+        default: null
       }
     },
     default: null
